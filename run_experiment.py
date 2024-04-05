@@ -74,7 +74,7 @@ def set_profiler_hosts():
 
 def run_profiler(id):
     extravars = [
-        'HOST_FILE={}'.format("~/HDSearch-Multinode/hosts"),
+        'HOST_FILE={}'.format("~/HDSearch-Multinode-Client-Conf/hosts"),
         'ITERATION={}'.format(id)]
     status_output=run_ansible_playbook(
         inventory='hosts', 
@@ -89,17 +89,17 @@ def stop_profiler(bucket,midtier):
         exec_command("sudo python3 profiler/profiler.py -n {} stop".format(node))
 
     for node in midtier:
-        exec_command("sudo python3 /users/ganton12/HDSearch-Multinode/profiler/profiler.py -n {} stop".format(node))
+        exec_command("sudo python3 /users/ganton12/HDSearch-Multinode-Client-Conf/profiler/profiler.py -n {} stop".format(node))
 
 def report_profiler(bucket,midtier,results_dir_path):
     
     for node in bucket:
         dir_path = os.path.join(results_dir_path, "bucket_" + node)
-        exec_command("sudo python3 /users/ganton12/HDSearch-Multinode/profiler/profiler.py -n {} report -d {}".format(node,dir_path))
+        exec_command("sudo python3 /users/ganton12/HDSearch-Multinode-Client-Conf/profiler/profiler.py -n {} report -d {}".format(node,dir_path))
 
     for node in midtier:
         dir_path = os.path.join(results_dir_path, "midtier_" + node)
-        exec_command("sudo python3 /users/ganton12/HDSearch-Multinode/profiler/profiler.py -n {} report -d {}".format(node,dir_path))
+        exec_command("sudo python3 /users/ganton12/HDSearch-Multinode-Client-Conf/profiler/profiler.py -n {} report -d {}".format(node,dir_path))
 
 def kill_profiler(bucket,midtier):
     run_ansible_playbook(
@@ -171,12 +171,12 @@ def run_remote(client_conf):
     # environment variables
     
     #start microservice
-    rc = os.system("cd ~/HDSearch-Multinode/; sudo docker stack deploy --compose-file=docker-compose-swarm.yml microsuite")
-    #exec_command("cd ~/HDSearch-Multinode; sudo docker stack deploy --compose-file=docker-compose-swarm.yml microsuite >> /local/logs/setup_node_swarm.log  2>&1")
+    rc = os.system("cd ~/HDSearch-Multinode-Client-Conf/; sudo docker stack deploy --compose-file=docker-compose-swarm.yml microsuite")
+    #exec_command("cd ~/HDSearch-Multinode-Client-Conf; sudo docker stack deploy --compose-file=docker-compose-swarm.yml microsuite >> /local/logs/setup_node_swarm.log  2>&1")
     
 def kill_remote():
-    rc = os.system('ssh -n node0 "cd ~/HDSearch-Multinode; sudo docker stack rm microsuite"')
-    #exec_command("cd ~/HDSearch-Multinode; sudo docker stack rm microsuite")  
+    rc = os.system('ssh -n node0 "cd ~/HDSearch-Multinode-Client-Conf; sudo docker stack rm microsuite"')
+    #exec_command("cd ~/HDSearch-Multinode-Client-Conf; sudo docker stack rm microsuite")  
 
 def host_is_reachable(host):
     return True if os.system("ping -c 1 {}".format(host)) == 0 else False
@@ -207,8 +207,8 @@ def configure_hdsearch_node(conf):
     bucket,midtier = hdsearch_node()
     print(str(bucket) + str(midtier))
     for node in bucket:
-        print('ssh -n {} "cd ~/HDSearch-Multinode; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][1]))
-        rc = os.system('ssh -n {} "cd ~/HDSearch-Multinode; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][1]))
+        print('ssh -n {} "cd ~/HDSearch-Multinode-Client-Conf; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][1]))
+        rc = os.system('ssh -n {} "cd ~/HDSearch-Multinode-Client-Conf; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][1]))
         exit_status = rc >> 8 
         if exit_status == 2:
             logging.info('Rebooting remote host {}...'.format(node))
@@ -219,17 +219,17 @@ def configure_hdsearch_node(conf):
                 logging.info('Waiting for remote host {}...'.format(node))
                 time.sleep(30)
                 pass
-            os.system('ssh -n {} "cd ~/HDSearch-Multinode; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][1]))
+            os.system('ssh -n {} "cd ~/HDSearch-Multinode-Client-Conf; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][1]))
             if conf['ht'] == False:
                 os.system('ssh -n {} "echo "forceoff" | sudo tee /sys/devices/system/cpu/smt/control"'.format(node))
             os.system('ssh -n {} "sudo cpupower frequency-set -g performance"'.format(node))
             os.system('ssh -n {} "echo "0" | sudo tee /proc/sys/kernel/nmi_watchdog"'.format(node))
             
             if conf['turbo'] == False:
-                os.system('ssh -n {} "~/HDSearch-Multinode/turbo-boost.sh disable"'.format(node))
+                os.system('ssh -n {} "~/HDSearch-Multinode-Client-Conf/turbo-boost.sh disable"'.format(node))
     for node in midtier:
-        print('ssh -n {} "cd ~/HDSearch-Multinode; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][0]))
-        rc = os.system('ssh -n {} "cd ~/HDSearch-Multinode; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][0]))
+        print('ssh -n {} "cd ~/HDSearch-Multinode-Client-Conf; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][0]))
+        rc = os.system('ssh -n {} "cd ~/HDSearch-Multinode-Client-Conf; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][0]))
         exit_status = rc >> 8 
         if exit_status == 2:
             logging.info('Rebooting remote host {}...'.format(node))
@@ -240,7 +240,7 @@ def configure_hdsearch_node(conf):
                 logging.info('Waiting for remote host {}...'.format(node))
                 time.sleep(30)
                 pass
-            os.system('ssh -n {} "cd ~/HDSearch-Multinode; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][0]))
+            os.system('ssh -n {} "cd ~/HDSearch-Multinode-Client-Conf; sudo python3 configure.py -v --turbo={} --kernelconfig={} -v"'.format(node, conf['turbo'], conf['kernelconfig'][0]))
             if conf['ht'] == False:
                 os.system('ssh -n {} "echo "forceoff" | sudo tee /sys/devices/system/cpu/smt/control"'.format(node))
             os.system('ssh -n {} "sudo cpupower frequency-set -g performance"'.format(node))
@@ -249,7 +249,7 @@ def configure_hdsearch_node(conf):
             os.system('ssh -n {} "echo "0" | sudo tee /proc/sys/kernel/nmi_watchdog"'.format(node))
             
             if conf['turbo'] == False:
-                os.system('ssh -n {} "~/HDSearch-Multinode/turbo-boost.sh disable"'.format(node))
+                os.system('ssh -n {} "~/HDSearch-Multinode-Client-Conf/turbo-boost.sh disable"'.format(node))
     return bucket,midtier
 
 def run_single_experiment(system_conf,root_results_dir, name_prefix, client_conf, idx,bucket,midtier):
