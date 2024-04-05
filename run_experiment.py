@@ -165,7 +165,8 @@ def run_remote(client_conf):
     for i in range(0,3):
         key="NODE" + str(i)
         os.environ[str(key)] = exec_command("ssh node{} hostname".format(i))[0]
-    
+    time.sleep(5)
+
     # Print the list of user's
     # environment variables
     
@@ -299,14 +300,24 @@ def run_single_experiment(system_conf,root_results_dir, name_prefix, client_conf
     return 0
 
 def run_multiple_experiments(root_results_dir, batch_name, system_conf, client_conf, midtier_conf, bucket_conf, iter):
-    bucket,midtier=configure_hdsearch_node(system_conf)
-    install_script_run()
+    
+    # The configuration of midtier and bucket remain the same so for now i comment out the command below
+    # bucket,midtier=configure_hdsearch_node(system_conf)
+    
+    # the following command is to increase the space of docker swarm. Whenever executes the image of microsuite
+    # gets deleted and we need to wait 15 min to load. I am going to comment it out since we increase the space
+    # of docker while we install dependencies. 
+    # install_script_run()
+    
     set_profiler_hosts()
     leave_swarm()
     init_manager()
     init_worker()
    
-    time.sleep(500)
+    # the sleep time used to be 500s. I reduce it to 60s since we commented out the above commands
+    # time.sleep(500)
+    time.sleep(60)
+
     name_prefix = "turbo={}-kernelconfig={}-{}-hyperthreading={}-".format(system_conf['turbo'], system_conf['kernelconfig'][0],system_conf['kernelconfig'][1],system_conf['ht'])
     request_qps = [500, 1000, 2000, 4000, 6000, 7000, 8000]
     root_results_dir = os.path.join(root_results_dir, batch_name)
@@ -391,7 +402,7 @@ def main(argv):
         'bucket_id': ['0', '1', '2', '3'],
         'num_buckets': '4',
         'cores': ['3', '4', '5', '6'],
-        'perf_counters': '4' #'50' #'15'
+        'perf_counters': '0' #'50' #'15'
     })
    
     logging.getLogger('').setLevel(logging.INFO)
