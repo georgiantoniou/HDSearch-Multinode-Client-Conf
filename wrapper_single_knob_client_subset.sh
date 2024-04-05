@@ -20,6 +20,9 @@ cd ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/
 #### Exp1: Set DEFAULT client configuration: ####
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3101001 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/DEFAULT
 
+# Make space for image to load
+ssh ganton12@node0 "~/scripts/change-storage-location-docker.sh"
+
 # Run experiment
 
 ssh ganton12@node0 "cd ~/HDSearch-Multinode-Client-Conf/; nohup python3 ./run_experiment.py hdsearch-client-single-knob-variability/DEFAULT >> ~/nohup.out 2>&1 &"
@@ -36,6 +39,9 @@ done
 #### Exp3: Set C1 client configuration: #### 
 
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 1101001 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/C1
+
+# Make space for image to load
+ssh ganton12@node0 "~/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -54,6 +60,9 @@ done
 
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 0101001 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/C0
 
+# Make space for image to load
+ssh ganton12@node0 "~/scripts/change-storage-location-docker.sh"
+
 # Run experiment
 
 ssh ganton12@node0 "cd ~/HDSearch-Multinode-Client-Conf/; nohup python3 ./run_experiment.py hdsearch-client-single-knob-variability/C0 >> ~/nohup.out 2>&1 &"
@@ -70,6 +79,9 @@ done
 #### Exp5: Set IP_OFF client configuration: #### 
 
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3001301 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/IP_OFF
+
+# Make space for image to load
+ssh ganton12@node0 "~/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -88,6 +100,9 @@ done
 
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3001201 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/IP_OFF-FG_US
 
+# Make space for image to load
+ssh ganton12@node0 "~/scripts/change-storage-location-docker.sh"
+
 # Run experiment
 
 ssh ganton12@node0 "cd ~/HDSearch-Multinode-Client-Conf/; nohup python3 ./run_experiment.py hdsearch-client-single-knob-variability/IP_OFF-FG_US >> ~/nohup.out 2>&1 &"
@@ -104,6 +119,9 @@ done
 #### Exp11: Set IP_OFF-FG_PE client configuration: #### 
 
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3001101 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/IP_OFF-FG_PE
+
+# Make space for image to load
+ssh ganton12@node0 "~/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
