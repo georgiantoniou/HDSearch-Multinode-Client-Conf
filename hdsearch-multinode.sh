@@ -23,7 +23,7 @@ install_dep () {
 build () {
   get_profiler
   pushd ~
-  tar -czf HDSearch-Multinode.tgz HDSearch-Multinode
+  tar -czf HDSearch-Multinode-Client-Conf.tgz HDSearch-Multinode-Client-Conf
   popd
  }	
 
