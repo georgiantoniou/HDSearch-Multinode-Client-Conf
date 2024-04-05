@@ -338,11 +338,15 @@ int main(int argc, char** argv) {
         curr_time = (double)GetTimeInMicro();
     }
   
+    //Need to put this into locks because I reset global counters
+    global_stat_mutex.lock();
     //Reset timing statistics
     ResetMetaStats(global_stats,number_of_bucket_servers);
     //Reset requests counters
     num_requests->AtomicallyResetCount();
     responses_recvd->AtomicallyResetCount();
+    global_stat_mutex.unlock();
+    
     //Validating by printing counters
     std::cout << "# Requests: " << num_requests->AtomicallyReadCount() << " \n";
     std::cout << "# Responses: " << responses_recvd->AtomicallyReadCount() << " \n";
