@@ -21,7 +21,7 @@ cd ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3101001 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/DEFAULT
 
 # Make space for image to load
-ssh ganton12@node0 "~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
+ssh ganton12@node0 "sudo ~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -41,7 +41,7 @@ done
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 1101001 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/C1
 
 # Make space for image to load
-ssh ganton12@node0 "~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
+ssh ganton12@node0 "sudo ~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -61,7 +61,7 @@ done
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 0101001 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/C0
 
 # Make space for image to load
-ssh ganton12@node0 "~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
+ssh ganton12@node0 "sudo ~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -81,7 +81,7 @@ done
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3001301 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/IP_OFF
 
 # Make space for image to load
-ssh ganton12@node0 "~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
+ssh ganton12@node0 "sudo ~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -101,7 +101,7 @@ done
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3001201 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/IP_OFF-FG_US
 
 # Make space for image to load
-ssh ganton12@node0 "~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
+ssh ganton12@node0 "sudo ~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
@@ -121,7 +121,7 @@ done
 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/set-client-configuration.sh main 3001101 node0 ~/HDSearch-Multinode-Client-Conf/client-conf-scripts/ node0,~/data/hdsearch-client-single-knob-variability/IP_OFF-FG_PE
 
 # Make space for image to load
-ssh ganton12@node0 "~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
+ssh ganton12@node0 "sudo ~/HDSearch-Multinode-Client-Conf/scripts/change-storage-location-docker.sh"
 
 # Run experiment
 
