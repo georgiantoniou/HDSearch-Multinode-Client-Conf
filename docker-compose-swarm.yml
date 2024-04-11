@@ -124,7 +124,7 @@ services:
                 echo "bucket:50051" >> bucket_servers_IP.txt
                 echo "bucket:50052" >> bucket_servers_IP.txt
                 echo "bucket:50053" >> bucket_servers_IP.txt
-                taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 ./mid_tier_server 1 13 1 4 bucket_servers_IP.txt /home/image_feature_vectors.dat 2 0.0.0.0:50054 1 4 32 0"
+                taskset -c 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 ./mid_tier_server 1 13 1 4 bucket_servers_IP.txt /home/image_feature_vectors.dat 2 0.0.0.0:50054 1 4 64 0"
   client:
     image: mklean/baseline-microsuite:hdsearch_router_setalgebra_recommend
     #networks:
@@ -162,7 +162,7 @@ services:
                 echo 'profilers launched'
                 cd /MicroSuite/src/HDSearch/load_generator
                 mkdir ./results
-                ./load_generator_open_loop /home/image_feature_vectors.dat ./results/ 1 120 2000 midtier:50054 dummy1 dummy2 dummy3"
+                ./load_generator_open_loop /home/image_feature_vectors.dat ./results/ 1 120 6000 midtier:50054 dummy1 dummy2 dummy3"
 #networks:
 #  outside:
 #    external:

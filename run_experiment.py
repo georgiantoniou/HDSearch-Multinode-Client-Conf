@@ -273,14 +273,20 @@ def run_single_experiment(system_conf,root_results_dir, name_prefix, client_conf
         return profiler_output
     print("Profilerrrrr putput " + str(profiler_output))
     
-    run_output = run_ansible_playbook(
-        inventory='hosts', 
-        playbook='ansible/hdsearch.yml', 
-        tags='check_status')
+    run_output=os.system("~/HDSearch-Multinode-Client-Conf/scripts/check-run-status.sh")
+
+    # run_output = run_ansible_playbook(
+    #     inventory='hosts', 
+    #     playbook='ansible/hdsearch.yml', 
+    #     tags='check_status')
     
     if run_output != 0:
+        logging.info("Run output exit code")
+        logging.info(run_output)
         return run_output
-    
+
+    logging.info("Run output exit code")
+    logging.info(run_output)
 
     stop_profiler(bucket,midtier)
     report_profiler(bucket,midtier,hdsearch_results_dir_path)
@@ -302,13 +308,16 @@ def run_single_experiment(system_conf,root_results_dir, name_prefix, client_conf
 def run_multiple_experiments(root_results_dir, batch_name, system_conf, client_conf, midtier_conf, bucket_conf, iter):
     
     # The configuration of midtier and bucket remain the same so for now i comment out the command below
-    # bucket,midtier=configure_hdsearch_node(system_conf)
+    bucket,midtier=configure_hdsearch_node(system_conf)
     
     # the following command is to increase the space of docker swarm. Whenever executes the image of microsuite
     # gets deleted and we need to wait 15 min to load. I am going to comment it out since we increase the space
     # of docker while we install dependencies. 
-    # install_script_run()
+    install_script_run()
     
+    # bucket=['node2']
+    # midtier=['node1']
+
     set_profiler_hosts()
     leave_swarm()
     init_manager()
@@ -320,6 +329,7 @@ def run_multiple_experiments(root_results_dir, batch_name, system_conf, client_c
 
     name_prefix = "turbo={}-kernelconfig={}-{}-hyperthreading={}-".format(system_conf['turbo'], system_conf['kernelconfig'][0],system_conf['kernelconfig'][1],system_conf['ht'])
     request_qps = [500, 1000, 2000, 4000, 6000, 7000, 8000]
+    # request_qps = [6000, 7000, 8000]
     root_results_dir = os.path.join(root_results_dir, batch_name)
     set_uncore_freq(system_conf, 2000)
     #timetorun=0
@@ -350,10 +360,10 @@ def main(argv):
     system_confs = [
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': False},
           #{'turbo': False, 'kernelconfig': ['baseline', 'baseline'], 'ht': False},
-          #{'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': False},
+          {'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': False},
           #{'turbo': False, 'kernelconfig': ['disable_c6', 'disable_c6'], 'ht': False},
-          #{'turbo': False, 'kernelconfig': ['disable_c1e_c6', 'disable_c1e_c6'], 'ht': False},
-          {'turbo': True, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': True}
+        #   {'turbo': False, 'kernelconfig': ['disable_c1e_c6', 'disable_c1e_c6'], 'ht': False},
+          #{'turbo': True, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': True}
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'baseline'], 'ht': False},
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_c6'], 'ht': False},
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_c1e_c6'], 'ht': False},
@@ -402,7 +412,7 @@ def main(argv):
         'bucket_id': ['0', '1', '2', '3'],
         'num_buckets': '4',
         'cores': ['3', '4', '5', '6'],
-        'perf_counters': '0' #'50' #'15'
+        'perf_counters': '4' #'50' #'15'
     })
    
     logging.getLogger('').setLevel(logging.INFO)

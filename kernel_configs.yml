@@ -7,7 +7,7 @@
   kernel: '4.15.0-159-generic'
   grub:
       menuentry: '1>6'
-      boot_options: ''
+      boot_options: 'nohz=on'
 - name: 'baseline'
   config:
       pstate: False
@@ -17,7 +17,7 @@
   kernel: '4.15.18-c1-2-2-c1e-10-20'
   grub:
       menuentry: '1>0'
-      boot_options: 'intel_pstate=disable'
+      boot_options: 'intel_pstate=disable nohz=on'
 - name: 'disable_cstates'
   config:
       pstate: False
@@ -27,7 +27,7 @@
   kernel: '4.15.18-c1-2-2-c1e-10-20'
   grub:      
       menuentry: '1>0'
-      boot_options: 'intel_pstate=disable intel_idle.max_cstate=0 idle=poll'
+      boot_options: 'intel_pstate=disable intel_idle.max_cstate=0 idle=poll nohz=on'
 - name: 'disable_c6'
   config:
       pstate: False
@@ -37,7 +37,7 @@
   kernel: '4.15.18-c1-2-2-c1e-10-20'
   grub:      
       menuentry: '1>0'
-      boot_options: 'intel_pstate=disable intel_idle.max_cstate=2'
+      boot_options: 'intel_pstate=disable intel_idle.max_cstate=2 nohz=on'
 - name: 'disable_c1e_c6'
   config:
       pstate: False
@@ -47,7 +47,7 @@
   kernel: '4.15.18-c1-2-2-c1e-10-20'
   grub:      
       menuentry: '1>0'
-      boot_options: 'intel_pstate=disable intel_idle.max_cstate=1'
+      boot_options: 'intel_pstate=disable intel_idle.max_cstate=1 nohz=on'
 - name: 'quick_c1'
   config:
       pstate: False
@@ -57,7 +57,7 @@
   kernel: '4.15.18-c1-1-1-c1e-10-20'
   grub:      
       menuentry: '1>2'
-      boot_options: 'intel_pstate=disable'
+      boot_options: 'intel_pstate=disable nohz=on'
 - name: 'quick_c1_disable_c6'
   config:
       pstate: False
@@ -67,7 +67,7 @@
   kernel: '4.15.18-c1-1-1-c1e-10-20'
   grub:      
       menuentry: '1>2'
-      boot_options: 'intel_pstate=disable intel_idle.max_cstate=2'
+      boot_options: 'intel_pstate=disable intel_idle.max_cstate=2 nohz=on'
 - name: 'quick_c1_c1e'
   config:
       pstate: False
@@ -77,4 +77,4 @@
   kernel: '4.15.18-c1-1-1-c1e-05-20'
   grub:      
       menuentry: '1>4'
-      boot_options: 'intel_pstate=disable'
+      boot_options: 'intel_pstate=disable nohz=on'

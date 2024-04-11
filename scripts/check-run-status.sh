@@ -28,6 +28,15 @@ if [[ $output -eq 1 ]]; then
 	exit 1
 fi
 
+output=$(sudo docker service logs microsuite_client --raw | grep -a "libprotobuf FATAL" | wc -l)
+output2=$(sudo docker service logs microsuite_client --raw | grep -a "Average Response Time(ms):" | wc -l)
+
+if [[ $output -eq 1 && ($output2 -eq 0) ]]; then
+	exit 1
+fi
+
 sleep 1
 
 done
+
+exit 0
