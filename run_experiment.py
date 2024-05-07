@@ -328,8 +328,8 @@ def run_multiple_experiments(root_results_dir, batch_name, system_conf, client_c
     time.sleep(60)
 
     name_prefix = "turbo={}-kernelconfig={}-{}-hyperthreading={}-".format(system_conf['turbo'], system_conf['kernelconfig'][0],system_conf['kernelconfig'][1],system_conf['ht'])
-    request_qps = [500, 1000, 2000, 4000, 6000, 7000, 8000]
-    # request_qps = [6000, 7000, 8000]
+    # request_qps = [500, 1000, 2000, 4000, 6000, 7000, 8000]
+    request_qps = [500, 1000, 1500, 2000, 2500]
     root_results_dir = os.path.join(root_results_dir, batch_name)
     set_uncore_freq(system_conf, 2000)
     #timetorun=0
@@ -360,9 +360,10 @@ def main(argv):
     system_confs = [
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': False},
           #{'turbo': False, 'kernelconfig': ['baseline', 'baseline'], 'ht': False},
-          {'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': False},
-          #{'turbo': False, 'kernelconfig': ['disable_c6', 'disable_c6'], 'ht': False},
-        #   {'turbo': False, 'kernelconfig': ['disable_c1e_c6', 'disable_c1e_c6'], 'ht': False},
+          # {'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': False},
+           {'turbo': False, 'kernelconfig': ['disable_c6', 'disable_c6'], 'ht': False},
+           {'turbo': False, 'kernelconfig': ['disable_c1e_c6', 'disable_c1e_c6'], 'ht': False},
+           {'turbo': False, 'kernelconfig': ['disable_c1e_c6', 'disable_c1e_c6'], 'ht': True},
           #{'turbo': True, 'kernelconfig': ['disable_cstates', 'disable_cstates'], 'ht': True}
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'baseline'], 'ht': False},
           #{'turbo': False, 'kernelconfig': ['disable_cstates', 'disable_c6'], 'ht': False},
