@@ -9,9 +9,9 @@ import re
 
 #Need to Check confidence interval theory
 
-qps_list = [500, 1000, 2000, 4000]
+qps_list = [500, 1000, 1500, 2000, 2500]
 z=1.96 # from taming performance variability paper
-n=0
+# n=50
 
 def print_all_metrics(stats_dir, overall_raw_measurements, overall_statistics, filename):
 
@@ -21,8 +21,8 @@ def print_all_metrics(stats_dir, overall_raw_measurements, overall_statistics, f
         for conf_list in overall_raw_measurements[exp_name]:
             for id,conf in enumerate(list(conf_list.keys())):
                 for qps in qps_list:
-                    for metric in overall_raw_measurements[exp_name][id][conf][qps]:
-                        size = len(overall_raw_measurements[exp_name][id][conf][qps][metric])
+                    for metric in overall_raw_measurements[exp_name][0][conf][qps]:
+                        size = len(overall_raw_measurements[exp_name][0][conf][qps][metric])
                         break
                     break
                 break
@@ -41,20 +41,20 @@ def print_all_metrics(stats_dir, overall_raw_measurements, overall_statistics, f
         for exp_name in overall_raw_measurements:
             for conf_list in overall_raw_measurements[exp_name]:
                 for id,conf in enumerate(list(conf_list.keys())):
-                    for metric in overall_statistics[exp_name][id][conf][qps_list[0]]:
+                    for metric in overall_statistics[exp_name][0][conf][qps_list[0]]:
                         for qps in qps_list:
                             row = []
                             row.append(exp_name)
                             row.append(conf)
                             row.append(qps)
                             row.append(metric)
-                            row.append(overall_statistics[exp_name][id][conf][qps][metric]["avg"])
-                            row.append(overall_statistics[exp_name][id][conf][qps][metric]["median"])
-                            row.append(overall_statistics[exp_name][id][conf][qps][metric]["stdev"])
-                            row.append(overall_statistics[exp_name][id][conf][qps][metric]["cv"])
-                            row.append(overall_statistics[exp_name][id][conf][qps][metric]["ci"]["min"])
-                            row.append(overall_statistics[exp_name][id][conf][qps][metric]["ci"]["max"])
-                            for meas in overall_raw_measurements[exp_name][id][conf][qps][metric]:
+                            row.append(overall_statistics[exp_name][0][conf][qps][metric]["avg"])
+                            row.append(overall_statistics[exp_name][0][conf][qps][metric]["median"])
+                            row.append(overall_statistics[exp_name][0][conf][qps][metric]["stdev"])
+                            row.append(overall_statistics[exp_name][0][conf][qps][metric]["cv"])
+                            row.append(overall_statistics[exp_name][0][conf][qps][metric]["ci"]["min"])
+                            row.append(overall_statistics[exp_name][0][conf][qps][metric]["ci"]["max"])
+                            for meas in overall_raw_measurements[exp_name][0][conf][qps][metric]:
                                 row.append(meas)
                             
                             writer.writerow(row)
@@ -79,10 +79,10 @@ def print_residency_merged(stats_dir, overall_raw_measurements, overall_statisti
                         row.append(conf)
                         row.append(qps)
                         row.append(metric)
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C0-res']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C1-res']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C1E-res']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C6-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C0-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C1-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C1E-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C6-res']["avg"])
                         writer.writerow(row)
     
     # Print Midtier Statistics
@@ -96,10 +96,10 @@ def print_residency_merged(stats_dir, overall_raw_measurements, overall_statisti
                         row.append(conf)
                         row.append(qps)
                         row.append(metric)
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C0-res']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C1-res']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C1E-res']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C6-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C0-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C1-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C1E-res']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C6-res']["avg"])
                         writer.writerow(row)
     
 
@@ -122,10 +122,10 @@ def print_transition_merged(stats_dir, overall_raw_measurements, overall_statist
                         row.append(conf)
                         row.append(qps)
                         row.append(metric)
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C0-tr']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C1-tr']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C1E-tr']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['bucket-C6-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C0-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C1-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C1E-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['bucket-C6-tr']["avg"])
                         writer.writerow(row)
         
         # Midtier
@@ -139,10 +139,10 @@ def print_transition_merged(stats_dir, overall_raw_measurements, overall_statist
                         row.append(conf)
                         row.append(qps)
                         row.append(metric)
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C0-tr']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C1-tr']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C1E-tr']["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps]['midtier-C6-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C0-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C1-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C1E-tr']["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps]['midtier-C6-tr']["avg"])
                         writer.writerow(row)
 
 def print_single_metric(stats_dir, overall_raw_measurements, overall_statistics, metric, filename):
@@ -157,7 +157,6 @@ def print_single_metric(stats_dir, overall_raw_measurements, overall_statistics,
                 break
             break
         break
-    
     for i in range(0,size):
         header.append("M" + str(i+1))
    
@@ -176,13 +175,13 @@ def print_single_metric(stats_dir, overall_raw_measurements, overall_statistics,
                         row.append(conf)
                         row.append(qps)
                         row.append(metric)
-                        row.append(overall_statistics[exp_name][id][conf][qps][metric]["avg"])
-                        row.append(overall_statistics[exp_name][id][conf][qps][metric]["median"])
-                        row.append(overall_statistics[exp_name][id][conf][qps][metric]["stdev"])
-                        row.append(overall_statistics[exp_name][id][conf][qps][metric]["cv"])
-                        row.append(overall_statistics[exp_name][id][conf][qps][metric]["ci"]["min"])
-                        row.append(overall_statistics[exp_name][id][conf][qps][metric]["ci"]["max"])
-                        for meas in overall_raw_measurements[exp_name][id][conf][qps][metric]:
+                        row.append(overall_statistics[exp_name][0][conf][qps][metric]["avg"])
+                        row.append(overall_statistics[exp_name][0][conf][qps][metric]["median"])
+                        row.append(overall_statistics[exp_name][0][conf][qps][metric]["stdev"])
+                        row.append(overall_statistics[exp_name][0][conf][qps][metric]["cv"])
+                        row.append(overall_statistics[exp_name][0][conf][qps][metric]["ci"]["min"])
+                        row.append(overall_statistics[exp_name][0][conf][qps][metric]["ci"]["max"])
+                        for meas in overall_raw_measurements[exp_name][0][conf][qps][metric]:
                             row.append(meas)
                         
                         writer.writerow(row)
@@ -190,10 +189,11 @@ def print_single_metric(stats_dir, overall_raw_measurements, overall_statistics,
 def confidence_interval_mean (metric_measurements):
     temp_list  = metric_measurements.copy()
     temp_list.sort()
-     
+    n= len(temp_list)
+
     min_i = math.floor((n-z*math.sqrt(n)) / 2)
     max_i = math.ceil(1 + (n+z*math.sqrt(n)) / 2) 
-    return temp_list[min_i+1-1], temp_list[max_i-1]
+    return temp_list[min_i], temp_list[max_i]
 
 def coefficient_of_variation(metric_measurements):
     return statistics.stdev(metric_measurements) / statistics.mean(metric_measurements)
@@ -210,29 +210,29 @@ def average(metric_measurements):
 def average_ignore_zeros(metric_measurements):
     return statistics.mean([i for i in metric_measurements if i!=0] or [0])
 
-def calculate_stats_single_instance(instance_stats, instance_raw_measurements):
+def calculate_stats_single_instance(instance_stats, instance_raw_measurements, conf):
 
-    for qps in instance_raw_measurements[list(instance_raw_measurements.keys())[0]]:
+    for qps in instance_raw_measurements[conf]:
         instance_stats[qps] = {}
-        for metric in instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps]:
+        for metric in instance_raw_measurements[conf][qps]:
             
             if "residency" not in metric: 
-                if instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric]:
+                if instance_raw_measurements[conf][qps][metric]:
                     instance_stats[qps][metric] = {}
                     #calculate statistics   
-                    print(metric) 
+                    # print(metric) 
                     if "package-0" in metric or "package-1" in metric or "dram-0" in metric or "dram-1" in metric:
-                        instance_stats[qps][metric]['avg'] = average_ignore_zeros(instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric])
+                        instance_stats[qps][metric]['avg'] = average_ignore_zeros(instance_raw_measurements[conf][qps][metric])
                     else:
-                        instance_stats[qps][metric]['avg'] = average(instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric])
-                    instance_stats[qps][metric]['median'] = median(instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric])
-                    instance_stats[qps][metric]['stdev'] = standard_deviation(instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric])
+                        instance_stats[qps][metric]['avg'] = average(instance_raw_measurements[conf][qps][metric])
+                    instance_stats[qps][metric]['median'] = median(instance_raw_measurements[conf][qps][metric])
+                    instance_stats[qps][metric]['stdev'] = standard_deviation(instance_raw_measurements[conf][qps][metric])
                     if instance_stats[qps][metric]['median'] > 0:
-                        instance_stats[qps][metric]['cv'] = coefficient_of_variation(instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric])
+                        instance_stats[qps][metric]['cv'] = coefficient_of_variation(instance_raw_measurements[conf][qps][metric])
                     else:
                         instance_stats[qps][metric]['cv'] = 0
                     instance_stats[qps][metric]['ci'] = {}
-                    instance_stats[qps][metric]['ci']['min'], instance_stats[qps][metric]['ci']['max'] = confidence_interval_mean(instance_raw_measurements[list(instance_raw_measurements.keys())[0]][qps][metric])
+                    instance_stats[qps][metric]['ci']['min'], instance_stats[qps][metric]['ci']['max'] = confidence_interval_mean(instance_raw_measurements[conf][qps][metric])
                 else:
                     instance_stats[qps][metric] = {}
                     instance_stats[qps][metric]['avg'] = 0
@@ -247,9 +247,9 @@ def calculate_stats_multiple_instances(exp_name,overall_raw_measurements):
 
     instances_stats = {}
     for ind,instance in enumerate(overall_raw_measurements[exp_name]):
-        instances_stats[list(instance.keys())[0]] = {}
-        calculate_stats_single_instance(instances_stats[list(instance.keys())[0]], overall_raw_measurements[exp_name][ind])
-    
+        for conf in overall_raw_measurements[exp_name][ind]:
+            instances_stats[conf] = {}
+            calculate_stats_single_instance(instances_stats[conf], overall_raw_measurements[exp_name][ind], conf)
     return instances_stats
 
 def derive_datatype(datastr):
@@ -539,6 +539,8 @@ def parse_client_throughput(client_stats_file):
 
 def parse_single_instance_stats(stats,stats_dir, qps):
     
+    run = int(stats_dir.split("-")[-1])
+
     if "throughput" not in stats:
         stats['throughput'] = []
         stats['avg'] = []
@@ -593,183 +595,262 @@ def parse_single_instance_stats(stats,stats_dir, qps):
     if os.path.exists(client_turbostat_file):
         temp = parse_client_turbostat(client_turbostat_file)
         if "PkgWatt" in temp[0]:
-            stats['client-pkg-0'].append(temp[0]['PkgWatt'])
+            stats['client-pkg-0'].insert(run,temp[0]['PkgWatt'])
         else:
-            stats['client-pkg-0'].append(0)
+            stats['client-pkg-0'].insert(run,0)
 
         if "PkgWatt" in temp[10]:
-            stats['client-pkg-1'].append(temp[10]['PkgWatt'])
+            stats['client-pkg-1'].insert(run,temp[10]['PkgWatt'])
         else:
-            stats['client-pkg-1'].append(0)
+            stats['client-pkg-1'].insert(run,0)
 
         if r"CPU%c1" in temp[-1]:
-            stats['client-C1-res-hw-all'].append(temp[-1][r'CPU%c1'])
+            stats['client-C1-res-hw-all'].insert(run,temp[-1][r'CPU%c1'])
         else:
-            stats['client-C1-res-hw-all'].append(0)
+            stats['client-C1-res-hw-all'].insert(run,0)
 
         if r"CPU%c6" in temp[-1]:
-            stats['client-C6-res-hw-all'].append(temp[-1][r'CPU%c6'])
+            stats['client-C6-res-hw-all'].insert(run,temp[-1][r'CPU%c6'])
         else:
-            stats['client-C6-res-hw-all'].append(0)
+            stats['client-C6-res-hw-all'].insert(run,0)
         
-        stats['client-C0-res-hw-all'].append(100-stats['client-C6-res-hw-all'][-1] - stats['client-C1-res-hw-all'][-1])
+        stats['client-C0-res-hw-all'].insert(run,100-stats['client-C6-res-hw-all'][-1] - stats['client-C1-res-hw-all'][-1])
 
         if "C1%" in temp[-1]:
-            stats['client-C1-res-sw-all'].append(temp[-1]['C1%'])
+            stats['client-C1-res-sw-all'].insert(run,temp[-1]['C1%'])
         else:
-            stats['client-C1-res-sw-all'].append(0)
+            stats['client-C1-res-sw-all'].insert(run,0)
         
         if "C1E%" in temp[-1]:
-            stats['client-C1E-res-sw-all'].append(temp[-1]['C1E%'])
+            stats['client-C1E-res-sw-all'].insert(run,temp[-1]['C1E%'])
         else:
-            stats['client-C1E-res-sw-all'].append(0)
+            stats['client-C1E-res-sw-all'].insert(run,0)
 
         if "C6%" in temp[-1]:
-            stats['client-C6-res-sw-all'].append(temp[-1]['C6%'])
+            stats['client-C6-res-sw-all'].insert(run,temp[-1]['C6%'])
         else:
-            stats['client-C6-res-sw-all'].append(0)
+            stats['client-C6-res-sw-all'].insert(run,0)
         
-        stats['client-C0-res-sw-all'].append(100-stats['client-C6-res-sw-all'][-1] - stats['client-C1-res-sw-all'][-1] - stats['client-C1E-res-sw-all'][-1])
+        stats['client-C0-res-sw-all'].insert(run,100-stats['client-C6-res-sw-all'][-1] - stats['client-C1-res-sw-all'][-1] - stats['client-C1E-res-sw-all'][-1])
 
         # Socket 0 Residency
         if r"CPU%c1" in temp[0]:
-            stats['client-C1-res-hw-s0'].append(temp[0][r'CPU%c1'])
+            stats['client-C1-res-hw-s0'].insert(run,temp[0][r'CPU%c1'])
         else:
-            stats['client-C1-res-hw-s0'].append(0)
+            stats['client-C1-res-hw-s0'].insert(run,0)
 
         if r"CPU%c6" in temp[0]:
-            stats['client-C6-res-hw-s0'].append(temp[0][r'CPU%c6'])
+            stats['client-C6-res-hw-s0'].insert(run,temp[0][r'CPU%c6'])
         else:
-            stats['client-C6-res-hw-s0'].append(0)
+            stats['client-C6-res-hw-s0'].insert(run,0)
         
-        stats['client-C0-res-hw-s0'].append(100-stats['client-C6-res-hw-s0'][-1] - stats['client-C1-res-hw-s0'][-1])
+        stats['client-C0-res-hw-s0'].insert(run,100-stats['client-C6-res-hw-s0'][-1] - stats['client-C1-res-hw-s0'][-1])
 
         if "C1%" in temp[0]:
-            stats['client-C1-res-sw-s0'].append(temp[0]['C1%'])
+            stats['client-C1-res-sw-s0'].insert(run,temp[0]['C1%'])
         else:
-            stats['client-C1-res-sw-s0'].append(0)
+            stats['client-C1-res-sw-s0'].insert(run,0)
         
         if "C1E%" in temp[0]:
-            stats['client-C1E-res-sw-s0'].append(temp[0]['C1E%'])
+            stats['client-C1E-res-sw-s0'].insert(run,temp[0]['C1E%'])
         else:
-            stats['client-C1E-res-sw-s0'].append(0)
+            stats['client-C1E-res-sw-s0'].insert(run,0)
 
         if "C6%" in temp[0]:
-            stats['client-C6-res-sw-s0'].append(temp[0]['C6%'])
+            stats['client-C6-res-sw-s0'].insert(run,temp[0]['C6%'])
         else:
-            stats['client-C6-res-sw-s0'].append(0)
+            stats['client-C6-res-sw-s0'].insert(run,0)
         
-        stats['client-C0-res-sw-s0'].append(100-stats['client-C6-res-sw-s0'][-1] - stats['client-C1-res-sw-s0'][-1] - stats['client-C1E-res-sw-s0'][-1])
+        stats['client-C0-res-sw-s0'].insert(run,100-stats['client-C6-res-sw-s0'][-1] - stats['client-C1-res-sw-s0'][-1] - stats['client-C1E-res-sw-s0'][-1])
 
         # Socket 1 Residency
         if r"CPU%c1" in temp[10]:
-            stats['client-C1-res-hw-s1'].append(temp[10][r'CPU%c1'])
+            stats['client-C1-res-hw-s1'].insert(run,temp[10][r'CPU%c1'])
         else:
-            stats['client-C1-res-hw-s1'].append(0)
+            stats['client-C1-res-hw-s1'].insert(run,0)
 
         if r"CPU%c6" in temp[10]:
-            stats['client-C6-res-hw-s1'].append(temp[10][r'CPU%c6'])
+            stats['client-C6-res-hw-s1'].insert(run,temp[10][r'CPU%c6'])
         else:
-            stats['client-C6-res-hw-s1'].append(0)
+            stats['client-C6-res-hw-s1'].insert(run,0)
         
-        stats['client-C0-res-hw-s1'].append(100-stats['client-C6-res-hw-s1'][-1] - stats['client-C1-res-hw-s1'][-1])
+        stats['client-C0-res-hw-s1'].insert(run,100-stats['client-C6-res-hw-s1'][-1] - stats['client-C1-res-hw-s1'][-1])
 
         if "C1%" in temp[10]:
-            stats['client-C1-res-sw-s1'].append(temp[10]['C1%'])
+            stats['client-C1-res-sw-s1'].insert(run,temp[10]['C1%'])
         else:
-            stats['client-C1-res-sw-s1'].append(0)
+            stats['client-C1-res-sw-s1'].insert(run,0)
         
         if "C1E%" in temp[10]:
-            stats['client-C1E-res-sw-s1'].append(temp[10]['C1E%'])
+            stats['client-C1E-res-sw-s1'].insert(run,temp[10]['C1E%'])
         else:
-            stats['client-C1E-res-sw-s1'].append(0)
+            stats['client-C1E-res-sw-s1'].insert(run,0)
 
         if "C6%" in temp[10]:
-            stats['client-C6-res-sw-s1'].append(temp[10]['C6%'])
+            stats['client-C6-res-sw-s1'].insert(run,temp[10]['C6%'])
         else:
-            stats['client-C6-res-sw-s1'].append(0)
+            stats['client-C6-res-sw-s1'].insert(run,0)
         
-        stats['client-C0-res-sw-s1'].append(100-stats['client-C6-res-sw-s1'][-1] - stats['client-C1-res-sw-s1'][-1] - stats['client-C1E-res-sw-s1'][-1])
+        stats['client-C0-res-sw-s1'].insert(run,100-stats['client-C6-res-sw-s1'][-1] - stats['client-C1-res-sw-s1'][-1] - stats['client-C1E-res-sw-s1'][-1])
 
         # Transitions
         if "C1" in temp[-1]:
-            stats['client-C1-tr-all'].append(temp[-1]['C1'])
+            stats['client-C1-tr-all'].insert(run,temp[-1]['C1'])
         else:
-            stats['client-C1-tr-all'].append(0)
+            stats['client-C1-tr-all'].insert(run,0)
         
         if "C1E" in temp[-1]:
-            stats['client-C1E-tr-all'].append(temp[-1]['C1E'])
+            stats['client-C1E-tr-all'].insert(run,temp[-1]['C1E'])
         else:
-            stats['client-C1E-tr-all'].append(0)
+            stats['client-C1E-tr-all'].insert(run,0)
 
         if "C6" in temp[-1]:
-            stats['client-C6-tr-all'].append(temp[-1]['C6'])
+            stats['client-C6-tr-all'].insert(run,temp[-1]['C6'])
         else:
-            stats['client-C6-tr-all'].append(0)
+            stats['client-C6-tr-all'].insert(run,0)
 
         # Socket 0 Transitions
         if "C1" in temp[0]:
-            stats['client-C1-tr-s0'].append(temp[0]['C1'])
+            stats['client-C1-tr-s0'].insert(run,temp[0]['C1'])
         else:
-            stats['client-C1-tr-s0'].append(0)
+            stats['client-C1-tr-s0'].insert(run,0)
         
         if "C1E" in temp[0]:
-            stats['client-C1E-tr-s0'].append(temp[0]['C1E'])
+            stats['client-C1E-tr-s0'].insert(run,temp[0]['C1E'])
         else:
-            stats['client-C1E-tr-s0'].append(0)
+            stats['client-C1E-tr-s0'].insert(run,0)
 
         if "C6" in temp[0]:
-            stats['client-C6-tr-s0'].append(temp[0]['C6'])
+            stats['client-C6-tr-s0'].insert(run,temp[0]['C6'])
         else:
-            stats['client-C6-tr-s0'].append(0)
+            stats['client-C6-tr-s0'].insert(run,0)
         
         # Socket 1 Residency
         if "C1" in temp[10]:
-            stats['client-C1-tr-s1'].append(temp[10]['C1'])
+            stats['client-C1-tr-s1'].insert(run,temp[10]['C1'])
         else:
-            stats['client-C1-tr-s1'].append(0)
+            stats['client-C1-tr-s1'].insert(run,0)
         
         if "C1E" in temp[10]:
-            stats['client-C1E-tr-s1'].append(temp[10]['C1E'])
+            stats['client-C1E-tr-s1'].insert(run,temp[10]['C1E'])
         else:
-            stats['client-C1E-tr-s1'].append(0)
+            stats['client-C1E-tr-s1'].insert(run,0)
 
         if "C6" in temp[10]:
-            stats['client-C6-tr-s1'].append(temp[10]['C6'])
+            stats['client-C6-tr-s1'].insert(run,temp[10]['C6'])
         else:
-            stats['client-C6-tr-s1'].append(0)
+            stats['client-C6-tr-s1'].insert(run,0)
         
 
+    # check if raw data directories exist otherwise skip measurments
+    if not os.path.exists(os.path.join(stats_dir, 'hdsearch/bucket_node2')):
+        return
+    if not os.path.exists(os.path.join(stats_dir, 'hdsearch/midtier_node1')):
+        return
     client_stats_file = os.path.join(stats_dir, 'hdsearch_client')
-    stats['throughput'].append(parse_client_throughput(client_stats_file))
+    qps_temp = parse_client_throughput(client_stats_file)
+    
+    if (float(qps) - float(qps_temp)) > 1000:
+        if stats['client-pkg-0']:
+            stats['client-pkg-0'].pop(run)
+            stats['client-pkg-1'].pop(run)
+            stats['client-C1-res-hw-all'].pop(run)
+            stats['client-C6-res-hw-all'].pop(run)
+            stats['client-C0-res-hw-all'].pop(run)
+            stats['client-C1-res-sw-all'].pop(run)
+            stats['client-C1E-res-sw-all'].pop(run)
+            stats['client-C6-res-sw-all'].pop(run)
+            stats['client-C0-res-sw-all'].pop(run)
+            stats['client-C1-res-hw-s0'].pop(run)
+            stats['client-C6-res-hw-s0'].pop(run)
+            stats['client-C0-res-hw-s0'].pop(run)
+            stats['client-C1-res-sw-s0'].pop(run)
+            stats['client-C1E-res-sw-s0'].pop(run)
+            stats['client-C6-res-sw-s0'].pop(run)
+            stats['client-C0-res-sw-s0'].pop(run)
+            stats['client-C1-res-hw-s1'].pop(run)
+            stats['client-C6-res-hw-s1'].pop(run)
+            stats['client-C0-res-hw-s1'].pop(run)
+            stats['client-C1-res-sw-s1'].pop(run)
+            stats['client-C1E-res-sw-s1'].pop(run)
+            stats['client-C6-res-sw-s1'].pop(run)
+            stats['client-C0-res-sw-s1'].pop(run)
+            stats['client-C1-tr-all'].pop(run)
+            stats['client-C1E-tr-all'].pop(run)
+            stats['client-C6-tr-all'].pop(run)
+            stats['client-C1-tr-s0'].pop(run)
+            stats['client-C1E-tr-s0'].pop(run)
+            stats['client-C6-tr-s0'].pop(run)
+            stats['client-C1-tr-s1'].pop(run)
+            stats['client-C1E-tr-s1'].pop(run)
+            stats['client-C6-tr-s1'].pop(run)
+        return
     
     client_time_stats = {}
     client_time_stats = parse_client_time(client_stats_file)
-    print(client_time_stats)
-    print(client_stats_file)
-    stats['avg'].append(float(client_time_stats['avg']))
-    stats['99th'].append(float(client_time_stats['tail'][-2]))
+    # print(client_time_stats)
+    # print(client_stats_file)
+    # wrong measurement skip 
+    if float(client_time_stats['avg']) > 100 or float(client_time_stats['tail'][-2]) > 100:
+        if stats['client-pkg-0']:
+            stats['client-pkg-0'].pop(run)
+            stats['client-pkg-1'].pop(run)
+            stats['client-C1-res-hw-all'].pop(run)
+            stats['client-C6-res-hw-all'].pop(run)
+            stats['client-C0-res-hw-all'].pop(run)
+            stats['client-C1-res-sw-all'].pop(run)
+            stats['client-C1E-res-sw-all'].pop(run)
+            stats['client-C6-res-sw-all'].pop(run)
+            stats['client-C0-res-sw-all'].pop(run)
+            stats['client-C1-res-hw-s0'].pop(run)
+            stats['client-C6-res-hw-s0'].pop(run)
+            stats['client-C0-res-hw-s0'].pop(run)
+            stats['client-C1-res-sw-s0'].pop(run)
+            stats['client-C1E-res-sw-s0'].pop(run)
+            stats['client-C6-res-sw-s0'].pop(run)
+            stats['client-C0-res-sw-s0'].pop(run)
+            stats['client-C1-res-hw-s1'].pop(run)
+            stats['client-C6-res-hw-s1'].pop(run)
+            stats['client-C0-res-hw-s1'].pop(run)
+            stats['client-C1-res-sw-s1'].pop(run)
+            stats['client-C1E-res-sw-s1'].pop(run)
+            stats['client-C6-res-sw-s1'].pop(run)
+            stats['client-C0-res-sw-s1'].pop(run)
+            stats['client-C1-tr-all'].pop(run)
+            stats['client-C1E-tr-all'].pop(run)
+            stats['client-C6-tr-all'].pop(run)
+            stats['client-C1-tr-s0'].pop(run)
+            stats['client-C1E-tr-s0'].pop(run)
+            stats['client-C6-tr-s0'].pop(run)
+            stats['client-C1-tr-s1'].pop(run)
+            stats['client-C1E-tr-s1'].pop(run)
+            stats['client-C6-tr-s1'].pop(run)       
+        return
+
+    stats['throughput'].insert(run,qps_temp)
+    stats['avg'].insert(run,float(client_time_stats['avg']))
+    stats['99th'].insert(run,float(client_time_stats['tail'][-2]))
     
     # Calculate power + residency for both bucket + midtier
 
     power_dir = os.path.join(stats_dir, 'hdsearch/bucket_node2')
-    stats['bucket-package-0'].append(parse_power_rapl(power_dir, "package-0"))
-    stats['bucket-package-1'].append(parse_power_rapl(power_dir, "package-1"))
-    stats['bucket-dram-0'].append(parse_power_rapl(power_dir, "dram-0"))
-    stats['bucket-dram-1'].append(parse_power_rapl(power_dir, "dram-1"))
+    stats['bucket-package-0'].insert(run,parse_power_rapl(power_dir, "package-0"))
+    stats['bucket-package-1'].insert(run,parse_power_rapl(power_dir, "package-1"))
+    stats['bucket-dram-0'].insert(run,parse_power_rapl(power_dir, "dram-0"))
+    stats['bucket-dram-1'].insert(run,parse_power_rapl(power_dir, "dram-1"))
     
     power_dir = os.path.join(stats_dir, 'hdsearch/midtier_node1')
-    stats['midtier-package-0'].append(parse_power_rapl(power_dir, "package-0"))
-    stats['midtier-package-1'].append(parse_power_rapl(power_dir, "package-1"))
-    stats['midtier-dram-0'].append(parse_power_rapl(power_dir, "dram-0"))
-    stats['midtier-dram-1'].append(parse_power_rapl(power_dir, "dram-1"))
+    stats['midtier-package-0'].insert(run,parse_power_rapl(power_dir, "package-0"))
+    stats['midtier-package-1'].insert(run,parse_power_rapl(power_dir, "package-1"))
+    stats['midtier-dram-0'].insert(run,parse_power_rapl(power_dir, "dram-0"))
+    stats['midtier-dram-1'].insert(run,parse_power_rapl(power_dir, "dram-1"))
 
 
     residency_dir = os.path.join(stats_dir, 'hdsearch/bucket_node2')
-    stats['bucket-residency'].append(parse_cstate_stats(residency_dir))
+    stats['bucket-residency'].insert(run,parse_cstate_stats(residency_dir))
 
     residency_dir = os.path.join(stats_dir, 'hdsearch/midtier_node1')
-    stats['midtier-residency'].append(parse_cstate_stats(residency_dir))
+    stats['midtier-residency'].insert(run,parse_cstate_stats(residency_dir))
 
 
 def parse_multiple_instances_stats(exp_dir, pattern='.*'):
